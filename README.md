@@ -53,9 +53,22 @@ Context and reporting:
 
 Open in any browser:
 
+- `mockups/splash-onboarding.html` — splash, welcome slides, and phone/email login (interactive flow).
 - `mockups/prototype.html` — Edit profile and the AxoloGold checkout, with a working **dark / light toggle**.
 - `mockups/app-screens.html` — the full app board: AxoloGold plans, swipe deck, likes-you grid, messages, profile.
-- `mockups/index.html` — gallery linking both.
+- `mockups/index.html` — gallery linking all of them.
+
+## Mobile app (Expo + React Native)
+
+The native iOS + Android build of these screens lives in [`mobile/`](mobile/). One TypeScript codebase, Expo Router for navigation, the same purple/pink/dark tokens, axolotls drawn in `react-native-svg`.
+
+```bash
+cd mobile
+npm install
+npx expo start
+```
+
+Screens: splash, onboarding/login, the four tabs (Discover, Likes You, Messages, Profile), and three modals (Edit Profile, AxoloGold paywall, Checkout). See [mobile/README.md](mobile/README.md) for the full structure.
 
 These are front-end mockups (HTML + inline SVG, no framework, no backend). The axolotls are drawn in SVG, not stock photos.
 

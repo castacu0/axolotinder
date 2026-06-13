@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AxoloTinder — Splash y onboarding</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css">
+<style>
+body{margin:0;background:#0D0814;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+input::placeholder{color:#6E5C85;}
+</style>
+</head>
+<body>
+<h2 class="sr-only">AxoloTinder onboarding flow: splash, welcome slides, and email or phone login.</h2>
+<div style="width:326px;background:#0B0610;border-radius:46px;padding:11px;border:1px solid #261A33;margin:24px;">
+  <div style="position:relative;background:#0D0814;border-radius:36px;overflow:hidden;height:640px;">
+    <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:96px;height:26px;background:#060309;border-radius:0 0 16px 16px;z-index:30;"></div>
+    <div id="oscreen" style="height:100%;"></div>
+  </div>
+</div>
+<script>
+var xochitl={body:'#FBCFE8',belly:'#F9A8D4',gills:'#F472B6',eye:'#1F1147',line:'#BE185D'};
+function axoSVG(a,size){return '<svg viewBox="0 0 200 200" style="width:'+size+'px;height:'+size+'px;" aria-hidden="true"><ellipse cx="100" cy="128" rx="52" ry="40" fill="'+a.belly+'"/><path d="M70 150 Q60 196 84 188 Q92 168 100 168 Q108 168 116 188 Q140 196 130 150 Z" fill="'+a.body+'"/><circle cx="100" cy="92" r="46" fill="'+a.body+'"/><g stroke="'+a.gills+'" stroke-width="7" stroke-linecap="round" fill="none"><path d="M58 78 Q34 60 30 72"/><path d="M58 92 Q30 86 28 98"/><path d="M60 106 Q34 112 32 124"/><path d="M142 78 Q166 60 170 72"/><path d="M142 92 Q170 86 172 98"/><path d="M140 106 Q166 112 168 124"/></g><circle cx="84" cy="92" r="6.5" fill="'+a.eye+'"/><circle cx="116" cy="92" r="6.5" fill="'+a.eye+'"/><circle cx="86" cy="90" r="2" fill="#fff"/><circle cx="118" cy="90" r="2" fill="#fff"/><circle cx="74" cy="104" r="5" fill="'+a.belly+'" opacity="0.85"/><circle cx="126" cy="104" r="5" fill="'+a.belly+'" opacity="0.85"/><path d="M92 106 Q100 113 108 106" stroke="'+a.line+'" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>';}
+function logo(sz){return '<div style="display:flex;align-items:center;gap:9px;justify-content:center;"><div style="width:'+sz+'px;height:'+sz+'px;border-radius:'+(sz/3.3)+'px;background:linear-gradient(140deg,#A855F7,#7C3AED 45%,#EC4899);display:flex;align-items:center;justify-content:center;"><i class="ti ti-flame" style="font-size:'+(sz*0.6)+'px;color:#fff;" aria-hidden="true"></i></div><span style="font-size:'+(sz*0.6)+'px;font-weight:500;letter-spacing:-.3px;background:linear-gradient(90deg,#C4B5FD,#F0ABFC);-webkit-background-clip:text;background-clip:text;color:transparent;">AxoloTinder</span></div>';}
+var slides=[{axo:true,title:'Bienvenido a AxoloTinder',text:'Haz match con los ajolotes más únicos de la Ciudad de México.'},{icon:'ti-heart-handshake',title:'Cada match cuenta',text:'Un match, un peso para restaurar el hábitat del ajolote en Xochimilco.'}];
+var step='splash',sIdx=0,mode='tel';
+function wrap(inner){return '<div style="height:100%;display:flex;flex-direction:column;padding:42px 24px 28px;box-sizing:border-box;">'+inner+'</div>';}
+function renderSplash(){
+  document.getElementById('oscreen').innerHTML='<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:0 24px;">'+logo(34)+'<div style="margin-top:6px;">'+axoSVG(xochitl,150)+'</div><div style="width:140px;height:4px;border-radius:2px;background:#241733;overflow:hidden;"><div id="obar" style="width:0%;height:100%;background:linear-gradient(90deg,#A855F7,#EC4899);transition:width 1.85s linear;"></div></div><div style="font-size:12px;color:#6E5C85;">Llenando tu estanque...</div></div>';
+  setTimeout(function(){var b=document.getElementById('obar');if(b)b.style.width='100%';},60);
+  setTimeout(function(){if(step==='splash'){step='slide';render();}},2000);
+}
+function renderSlide(){
+  var s=slides[sIdx];
+  var art=s.axo?axoSVG(xochitl,160):'<div style="width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#4C1D95,#160B26);display:flex;align-items:center;justify-content:center;"><i class="ti '+s.icon+'" style="font-size:66px;color:#F0ABFC;" aria-hidden="true"></i></div>';
+  var dots='';for(var i=0;i<slides.length;i++){dots+='<span style="width:'+(i===sIdx?'22':'7')+'px;height:7px;border-radius:4px;background:'+(i===sIdx?'#C084FC':'#3A2A4D')+';transition:width .2s;"></span>';}
+  document.getElementById('oscreen').innerHTML=wrap('<div style="display:flex;justify-content:flex-end;"><span onclick="axSkip()" style="font-size:13px;color:#9C8AB5;cursor:pointer;">Saltar</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:22px;"><div>'+art+'</div><div style="font-size:23px;font-weight:500;color:#F5F3FF;letter-spacing:-.3px;">'+s.title+'</div><div style="font-size:14px;line-height:1.55;color:#A99FB8;max-width:240px;">'+s.text+'</div></div><div style="display:flex;gap:7px;justify-content:center;margin-bottom:18px;">'+dots+'</div><button onclick="axNext()" style="width:100%;padding:15px;border:none;border-radius:26px;background:linear-gradient(140deg,#A855F7,#7C3AED 50%,#EC4899);color:#fff;font-size:15px;font-weight:500;cursor:pointer;">'+(sIdx<slides.length-1?'Continuar':'Empezar')+'</button>');
+}
+function renderLogin(){
+  document.getElementById('oscreen').innerHTML=wrap('<div style="display:flex;align-items:center;gap:12px;margin-bottom:30px;"><i class="ti ti-chevron-left" onclick="axBack()" style="font-size:24px;color:#6E5C85;cursor:pointer;" aria-hidden="true"></i>'+logo(26)+'</div><div style="font-size:22px;font-weight:500;color:#F5F3FF;">Entra o crea tu cuenta</div><div style="font-size:13px;color:#A99FB8;margin-top:6px;margin-bottom:24px;">Te enviaremos un código para verificar.</div><div style="display:flex;background:#15101D;border:1px solid #2E2040;border-radius:13px;padding:4px;margin-bottom:16px;"><button id="mtel" onclick="axMode(\'tel\')" style="flex:1;padding:9px;border:none;border-radius:10px;background:#7C3AED;color:#fff;font-size:13px;font-weight:500;cursor:pointer;">Teléfono</button><button id="mmail" onclick="axMode(\'mail\')" style="flex:1;padding:9px;border:none;border-radius:10px;background:transparent;color:#A99FB8;font-size:13px;font-weight:500;cursor:pointer;">Correo</button></div><div id="ofield"></div><div style="flex:1;"></div><button onclick="axLogin()" style="width:100%;padding:15px;border:none;border-radius:26px;background:linear-gradient(140deg,#A855F7,#7C3AED 50%,#EC4899);color:#fff;font-size:15px;font-weight:500;cursor:pointer;">Continuar</button><div style="font-size:10.5px;color:#6E5C85;text-align:center;margin-top:14px;line-height:1.5;">Al continuar aceptas los Términos y el Aviso de Privacidad de AxoloTinder.</div>');
+  renderField();
+}
+function renderField(){
+  var f=document.getElementById('ofield');if(!f)return;
+  if(mode==='tel'){f.innerHTML='<div style="display:flex;gap:8px;"><div style="display:flex;align-items:center;padding:0 13px;height:48px;border:1px solid #2E2040;border-radius:13px;background:#15101D;color:#C4B5FD;font-size:14px;">+52</div><input inputmode="tel" placeholder="55 1234 5678" style="flex:1;height:48px;border:1px solid #2E2040;border-radius:13px;background:#15101D;color:#F5F3FF;padding:0 14px;font-size:14px;outline:none;box-sizing:border-box;"></div>';}
+  else{f.innerHTML='<input inputmode="email" placeholder="tu@correo.com" style="width:100%;height:48px;border:1px solid #2E2040;border-radius:13px;background:#15101D;color:#F5F3FF;padding:0 14px;font-size:14px;outline:none;box-sizing:border-box;">';}
+}
+function renderDone(){
+  document.getElementById('oscreen').innerHTML='<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:0 30px;text-align:center;"><div style="width:74px;height:74px;border-radius:50%;background:linear-gradient(140deg,#A855F7,#EC4899);display:flex;align-items:center;justify-content:center;"><i class="ti ti-check" style="font-size:40px;color:#fff;" aria-hidden="true"></i></div><div style="font-size:21px;font-weight:500;color:#F5F3FF;">Listo, ya casi nadas</div><div style="font-size:13px;color:#A99FB8;">Entrando a tu estanque de ajolotes...</div><button onclick="axReset()" style="margin-top:8px;padding:11px 24px;border:1px solid #3A2A4D;border-radius:24px;background:transparent;color:#C4B5FD;font-size:13px;font-weight:500;cursor:pointer;">Ver el flujo otra vez</button></div>';
+}
+function render(){if(step==='splash')renderSplash();else if(step==='slide')renderSlide();else if(step==='login')renderLogin();else renderDone();}
+window.axNext=function(){if(sIdx<slides.length-1){sIdx++;renderSlide();}else{step='login';render();}};
+window.axSkip=function(){step='login';render();};
+window.axBack=function(){step='slide';sIdx=slides.length-1;render();};
+window.axMode=function(m){mode=m;document.getElementById('mtel').style.background=m==='tel'?'#7C3AED':'transparent';document.getElementById('mtel').style.color=m==='tel'?'#fff':'#A99FB8';document.getElementById('mmail').style.background=m==='mail'?'#7C3AED':'transparent';document.getElementById('mmail').style.color=m==='mail'?'#fff':'#A99FB8';renderField();};
+window.axLogin=function(){step='done';render();};
+window.axReset=function(){step='splash';sIdx=0;mode='tel';render();};
+render();
+</script>
+</body>
+</html>

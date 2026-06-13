@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "AxoloTinder",
+    "slug": "axolotinder",
+    "scheme": "axolotinder",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#0D0814",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.castacu0.axolotinder"
+    },
+    "android": {
+      "package": "com.castacu0.axolotinder",
+      "adaptiveIcon": {
+        "backgroundColor": "#0D0814"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}
