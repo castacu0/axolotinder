@@ -1,3 +1,5 @@
+![#PostalizedPlane Newsletter Special Edition](AxoloTinder.png)
+
 # AxoloTinder
 
 **Regenerate your love life. / Regenera tu vida amorosa.**
