@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AxoloTinder — Pantallas de la app</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css">
+<style>
+body{margin:0;background:#0D0814;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Board of five AxoloTinder app screens: AxoloGold plans, swipe deck, likes-you grid, messages and profile.</h2>
+<div style="background:#14101C;border-radius:16px;padding:1.75rem 1rem;max-width:760px;margin:24px auto;">
+  <div id="board" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px;align-items:start;"></div>
+</div>
+<script>
+var pals = {
+  xochitl:{body:'#FBCFE8',belly:'#F9A8D4',gills:'#F472B6',eye:'#1F1147',line:'#BE185D'},
+  axolfredo:{body:'#5E6B4A',belly:'#717C58',gills:'#8B6F4E',eye:'#140E04',line:'#2E2410',speckle:'#D8C07A'},
+  chela:{body:'#2C2536',belly:'#3A3047',gills:'#5A2E42',eye:'#0A0710',line:'#7A4A5E'},
+  goldo:{body:'#FBD24E',belly:'#FCDC7A',gills:'#FB923C',eye:'#DC2626',line:'#B45309'},
+  frida:{body:'#E3AC82',belly:'#EFC4A0',gills:'#DD8A66',eye:'#5A2E12',line:'#7A3A1A',speckle:'#A85C3A'},
+  glowberto:{body:'#A7F3D0',belly:'#C9F7E2',gills:'#34D399',eye:'#064E3B',line:'#047857',fluor:true},
+  you:{body:'#C4B5FD',belly:'#DDD6FE',gills:'#A855F7',eye:'#2A1248',line:'#6D28D9'}
+};
+function axoSVG(a, size){
+  var speck = a.speckle ? '<g fill="'+a.speckle+'" opacity="0.75"><circle cx="84" cy="78" r="2.4"/><circle cx="114" cy="74" r="1.9"/><circle cx="100" cy="100" r="2.2"/><circle cx="76" cy="98" r="1.7"/><circle cx="124" cy="94" r="2.3"/><circle cx="92" cy="118" r="1.9"/></g>' : '';
+  var glow = a.fluor ? 'filter:drop-shadow(0 0 9px '+a.gills+') drop-shadow(0 0 16px '+a.gills+');' : '';
+  return '<svg viewBox="0 0 200 200" style="position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:'+size+'px;height:'+size+'px;'+glow+'" aria-hidden="true"><ellipse cx="100" cy="128" rx="52" ry="40" fill="'+a.belly+'"/><path d="M70 150 Q60 196 84 188 Q92 168 100 168 Q108 168 116 188 Q140 196 130 150 Z" fill="'+a.body+'"/><circle cx="100" cy="92" r="46" fill="'+a.body+'"/><g stroke="'+a.gills+'" stroke-width="7" stroke-linecap="round" fill="none"><path d="M58 78 Q34 60 30 72"/><path d="M58 92 Q30 86 28 98"/><path d="M60 106 Q34 112 32 124"/><path d="M142 78 Q166 60 170 72"/><path d="M142 92 Q170 86 172 98"/><path d="M140 106 Q166 112 168 124"/></g>'+speck+'<circle cx="84" cy="92" r="6.5" fill="'+a.eye+'"/><circle cx="116" cy="92" r="6.5" fill="'+a.eye+'"/><circle cx="86" cy="90" r="2" fill="#fff"/><circle cx="118" cy="90" r="2" fill="#fff"/><circle cx="74" cy="104" r="5" fill="'+a.belly+'" opacity="0.85"/><circle cx="126" cy="104" r="5" fill="'+a.belly+'" opacity="0.85"/><path d="M92 106 Q100 113 108 106" stroke="'+a.line+'" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>';
+}
+function cap(t){ return '<div style="text-align:center;margin-bottom:10px;"><span style="font-size:12px;font-weight:500;color:#C4B5FD;background:#2A124855;border:1px solid #7C3AED55;padding:4px 12px;border-radius:12px;">'+t+'</span></div>'; }
+function phone(inner){ return '<div style="max-width:344px;margin:0 auto;background:#0B0610;border-radius:40px;padding:9px;border:1px solid #261A33;"><div style="position:relative;background:#0D0814;border-radius:32px;overflow:hidden;height:606px;display:flex;flex-direction:column;"><div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:84px;height:22px;background:#060309;border-radius:0 0 14px 14px;z-index:20;"></div>'+inner+'</div></div>'; }
+function nav(active){
+  var ic=['ti-flame','ti-stars','ti-message-circle-2','ti-user'];
+  var h='<div style="display:flex;justify-content:space-around;padding:9px 0 18px;border-top:1px solid #1F1530;margin-top:auto;">';
+  for(var k=0;k<4;k++){ h+='<i class="ti '+ic[k]+'" style="font-size:23px;color:'+(k===active?'#C084FC':'#4B3A5E')+';padding-top:9px;" aria-hidden="true"></i>'; }
+  return h+'</div>';
+}
+function av(pal,size,extra){ return '<div class="axo" data-pal="'+pal+'" data-size="'+size+'" style="position:absolute;inset:0;'+(extra||'')+'"></div>'; }
+
+var feats=[['ti-rotate-2','Regen ilimitado'],['ti-eye','Mira quién te dio like'],['ti-star','5 Súper Ajos cada semana'],['ti-bolt','1 Boost gratis al mes'],['ti-ban','Navega sin anuncios'],['ti-eye-off','Modo incógnito']];
+var fh='';
+for(var f=0;f<feats.length;f++){ fh+='<div style="display:flex;align-items:center;gap:10px;padding:5px 0;"><i class="ti ti-circle-check" style="font-size:18px;color:#FBBF24;" aria-hidden="true"></i><span style="font-size:13px;color:#EFE6D2;flex:1;">'+feats[f][1]+'</span><i class="ti '+feats[f][0]+'" style="font-size:15px;color:#9C8AB5;" aria-hidden="true"></i></div>'; }
+var plans=[['p1','1 mes','199',''],['p6','6 meses','149','-25%'],['p12','12 meses','99','-50%']];
+var ph='';
+for(var p=0;p<plans.length;p++){
+  var pop=plans[p][0]==='p6';
+  ph+='<div id="'+plans[p][0]+'" onclick="selPlan(\''+plans[p][0]+'\','+plans[p][2]+')" style="flex:1;cursor:pointer;position:relative;text-align:center;padding:13px 4px 11px;border-radius:14px;background:'+(pop?'#3B2A08':'#15101D')+';border:1.5px solid '+(pop?'#FBBF24':'#2E2040')+';">'
+    +(plans[p][3]?'<div style="position:absolute;top:8px;right:8px;font-size:9px;font-weight:500;color:#3B0764;background:#C4B5FD;padding:2px 6px;border-radius:8px;">'+plans[p][3]+'</div>':'')
+    +'<div style="font-size:12px;color:#C4B5FD;margin-bottom:6px;">'+plans[p][1]+'</div>'
+    +'<div style="font-size:21px;font-weight:500;color:#F5F3FF;">$'+plans[p][2]+'</div>'
+    +'<div style="font-size:10px;color:#9C8AB5;">/mes</div>'
+    +(pop?'<div style="margin-top:7px;font-size:9px;font-weight:500;letter-spacing:1px;color:#FBBF24;">POPULAR</div>':'<div style="margin-top:7px;height:13px;"></div>')+'</div>';
+}
+var gold = '<div style="display:flex;align-items:center;justify-content:space-between;padding:30px 18px 6px;"><i class="ti ti-x" style="font-size:22px;color:#6E5C85;" aria-hidden="true"></i><span style="font-size:12px;color:#9C8AB5;">Restaurar compra</span></div>'
+  +'<div style="text-align:center;padding:6px 20px 0;"><div style="width:54px;height:54px;margin:0 auto 10px;border-radius:16px;background:linear-gradient(140deg,#FCD34D,#F59E0B);display:flex;align-items:center;justify-content:center;"><i class="ti ti-crown" style="font-size:28px;color:#3B2A08;" aria-hidden="true"></i></div><div style="font-size:24px;font-weight:500;letter-spacing:-.3px;background:linear-gradient(90deg,#FCD34D,#FBBF24,#F0ABFC);-webkit-background-clip:text;background-clip:text;color:transparent;">AxoloGold</div><div style="font-size:12.5px;color:#A99FB8;margin-top:4px;">Regenera tu vida amorosa</div></div>'
+  +'<div style="padding:14px 22px 6px;">'+fh+'</div>'
+  +'<div style="display:flex;gap:8px;padding:6px 16px 0;">'+ph+'</div>'
+  +'<div style="padding:14px 16px 0;"><button id="goldCta" style="width:100%;padding:14px;border:none;border-radius:24px;background:linear-gradient(140deg,#FCD34D,#F59E0B);color:#3B2A08;font-size:14px;font-weight:500;cursor:pointer;">Hazte AxoloGold · $149/mes</button></div>'
+  +'<div style="text-align:center;font-size:10px;color:#6E5C85;padding:9px 24px 14px;margin-top:auto;">Precios en MXN. Renovación automática. Cancela cuando quieras.</div>';
+
+var pills='';
+['Nado nocturno','Neoténica','Team morado'].forEach(function(t,idx){ var pk=idx%2===1; pills+='<span style="font-size:10.5px;font-weight:500;color:'+(pk?'#FBCFE8':'#E9D5FF')+';background:'+(pk?'#DB277733':'#6D28D933')+';border:1px solid '+(pk?'#EC489955':'#7C3AED55')+';padding:4px 10px;border-radius:18px;">'+t+'</span>'; });
+var btn=function(sz,bg,bd,icon,col,fs){ return '<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+bg+';border:'+bd+';display:flex;align-items:center;justify-content:center;"><i class="ti '+icon+'" style="font-size:'+fs+'px;color:'+col+';" aria-hidden="true"></i></div>'; };
+var descubre='<div style="display:flex;align-items:center;justify-content:space-between;padding:28px 16px 10px;"><div style="display:flex;align-items:center;gap:7px;"><div style="width:26px;height:26px;border-radius:8px;background:linear-gradient(140deg,#A855F7,#EC4899);display:flex;align-items:center;justify-content:center;"><i class="ti ti-flame" style="font-size:16px;color:#fff;" aria-hidden="true"></i></div><span style="font-size:15px;font-weight:500;background:linear-gradient(90deg,#C4B5FD,#F0ABFC);-webkit-background-clip:text;background-clip:text;color:transparent;">AxoloTinder</span></div><span style="font-size:10px;font-weight:500;color:#C4B5FD;background:#2A124855;border:1px solid #7C3AED55;padding:4px 8px;border-radius:11px;">12 gratis hoy</span></div>'
+  +'<div style="margin:2px 16px 0;position:relative;border-radius:24px;overflow:hidden;background:#1A1126;border:1px solid #2E2040;"><div style="position:relative;height:226px;background:radial-gradient(120% 90% at 50% 0%, #4C1D95, #2A1248 55%, #160B26);overflow:hidden;"><div style="position:absolute;top:18px;left:16px;width:74px;height:74px;border-radius:50%;background:#F472B6;opacity:.18;filter:blur(8px);"></div>'+av('xochitl',176)
+  +'<div style="position:absolute;top:12px;left:12px;background:rgba(11,6,16,.55);border:1px solid #C084FC55;color:#E9D5FF;font-size:10px;font-weight:500;padding:4px 9px;border-radius:18px;">Leucística</div>'
+  +'<div style="position:absolute;top:12px;right:12px;background:rgba(11,6,16,.55);border:1px solid #C084FC55;color:#E9D5FF;font-size:10px;font-weight:500;padding:4px 9px;border-radius:18px;display:flex;align-items:center;gap:4px;"><i class="ti ti-heart" style="font-size:12px;color:#F472B6;" aria-hidden="true"></i>96%</div>'
+  +'<div style="position:absolute;bottom:0;left:0;right:0;height:90px;background:linear-gradient(to top,#1A1126,transparent);"></div></div>'
+  +'<div style="padding:0 16px 14px;margin-top:-34px;position:relative;"><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:20px;font-weight:500;color:#F5F3FF;">Xóchitl</span><span style="font-size:15px;color:#C4B5FD;">3 años</span><i class="ti ti-discount-check" style="font-size:16px;color:#C084FC;" aria-hidden="true"></i><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34D399;"></span></div>'
+  +'<p style="margin:6px 0 0;font-size:12px;line-height:1.45;color:#A99FB8;">Reina de las chinampas. Regenero hasta la autoestima.</p>'
+  +'<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;">'+pills+'</div></div></div>'
+  +'<div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 0;">'+btn(38,'#18101F','1px solid #3A2A4D','ti-rotate-2','#FBBF24',17)+btn(46,'#18101F','1px solid #3A2A4D','ti-x','#FB7185',21)+btn(38,'#18101F','1px solid #3A2A4D','ti-star','#60A5FA',17)+btn(54,'linear-gradient(140deg,#A855F7,#7C3AED 50%,#EC4899)','none','ti-heart','#fff',24)+btn(38,'#18101F','1px solid #3A2A4D','ti-bolt','#C084FC',17)+'</div>'
+  +nav(0);
+
+var likeData=[['goldo','Goldo, 2',false],['axolfredo','',true],['chela','',true],['frida','',true],['glowberto','',true],['xochitl','',true]];
+var tiles='';
+for(var t=0;t<likeData.length;t++){
+  var d=likeData[t];
+  tiles+='<div style="position:relative;border-radius:16px;overflow:hidden;height:124px;background:radial-gradient(circle at 50% 25%,#3A1E6B,#160B26);border:1px solid #2E2040;">'
+    +av(d[0],112,d[2]?'filter:blur(7px);':'')
+    +(d[2]?'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,6,16,.35);"><i class="ti ti-lock" style="font-size:22px;color:#FBBF24;" aria-hidden="true"></i></div>':'<div style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:500;color:#3B0764;background:#34D399;padding:2px 7px;border-radius:8px;">Nuevo</div>')
+    +'<div style="position:absolute;bottom:0;left:0;right:0;padding:14px 10px 8px;background:linear-gradient(to top,#0D0814,transparent);font-size:12px;font-weight:500;color:#F5F3FF;">'+(d[2]?'<span style="color:#9C8AB5;">Oculto</span>':d[1])+'</div></div>';
+}
+var likes='<div style="padding:28px 18px 10px;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:19px;font-weight:500;color:#F5F3FF;">Te dieron like</span><span style="font-size:11px;font-weight:500;color:#3B0764;background:#FBBF24;padding:2px 8px;border-radius:10px;">24</span></div><div style="font-size:11.5px;color:#9C8AB5;margin-top:3px;">Hazte AxoloGold para verlos a todos.</div></div>'
+  +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;">'+tiles+'</div>'
+  +'<div style="margin:12px 16px 0;padding:11px 12px;border-radius:14px;background:linear-gradient(90deg,#3B2A08,#4A3309);border:1px solid #FBBF2455;display:flex;align-items:center;gap:9px;"><i class="ti ti-crown" style="font-size:18px;color:#FBBF24;" aria-hidden="true"></i><span style="flex:1;font-size:12px;font-weight:500;color:#F5F3FF;">Ve los 24 likes</span><span style="font-size:11px;font-weight:500;color:#3B2A08;background:#FBBF24;padding:4px 11px;border-radius:12px;">AxoloGold</span></div>'
+  +nav(1);
+
+var matchAv=[['xochitl','Xóchitl'],['goldo','Goldo'],['frida','Frida'],['glowberto','Glow']];
+var mhr='';
+for(var m=0;m<matchAv.length;m++){ mhr+='<div style="text-align:center;flex:0 0 auto;"><div style="width:58px;height:58px;border-radius:50%;overflow:hidden;position:relative;background:radial-gradient(circle at 50% 25%,#3A1E6B,#160B26);border:2px solid #C084FC;">'+av(matchAv[m][0],70)+'</div><div style="font-size:10px;color:#A99FB8;margin-top:4px;">'+matchAv[m][1]+'</div></div>'; }
+var convs=[['xochitl','Xóchitl','¿Nadamos en Cuemanco el finde?','2 min',true],['goldo','Goldo','jaja sí, brillo solito','1 h',true],['chela','Doña Chela','Mijo, ¿ya comiste?','3 h',false],['frida','Frida Kahlolote','Te mando el mural que pinté','1 d',false],['glowberto','Glowberto','Conéctame al UV y vemos','2 d',false]];
+var ch='';
+for(var c=0;c<convs.length;c++){ var v=convs[c];
+  ch+='<div style="display:flex;align-items:center;gap:12px;padding:11px 16px;"><div style="width:46px;height:46px;flex:0 0 auto;border-radius:50%;overflow:hidden;position:relative;background:radial-gradient(circle at 50% 25%,#3A1E6B,#160B26);">'+av(v[0],56)+'</div><div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:500;color:#F5F3FF;">'+v[1]+'</div><div style="font-size:12px;color:'+(v[4]?'#C4B5FD':'#9C8AB5')+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+v[2]+'</div></div><div style="text-align:right;flex:0 0 auto;"><div style="font-size:10.5px;color:#6E5C85;">'+v[3]+'</div>'+(v[4]?'<div style="width:9px;height:9px;border-radius:50%;background:#EC4899;margin:5px 0 0 auto;"></div>':'')+'</div></div>';
+}
+var mensajes='<div style="padding:28px 18px 4px;"><span style="font-size:19px;font-weight:500;color:#F5F3FF;">Mensajes</span></div>'
+  +'<div style="padding:8px 0 12px 16px;"><div style="font-size:11px;font-weight:500;letter-spacing:.5px;color:#9C8AB5;margin-bottom:10px;">NUEVOS MATCHES</div><div style="display:flex;gap:14px;overflow:hidden;"><div style="text-align:center;flex:0 0 auto;"><div style="width:58px;height:58px;border-radius:50%;background:#2A1248;border:2px dashed #FBBF24;display:flex;align-items:center;justify-content:center;"><span style="font-size:17px;font-weight:500;color:#FBBF24;">24</span></div><div style="font-size:10px;color:#A99FB8;margin-top:4px;">Likes</div></div>'+mhr+'</div></div>'
+  +'<div style="border-top:1px solid #1F1530;">'+ch+'</div>'
+  +nav(2);
+
+var stats=[['128','Likes'],['32','Matches'],['540','Visitas']];
+var sh='';
+for(var s=0;s<stats.length;s++){ sh+='<div style="flex:1;text-align:center;background:#15101D;border-radius:12px;padding:11px 4px;"><div style="font-size:19px;font-weight:500;color:#F5F3FF;">'+stats[s][0]+'</div><div style="font-size:11px;color:#9C8AB5;margin-top:2px;">'+stats[s][1]+'</div></div>'; }
+var menu=[['ti-settings','Configuración'],['ti-adjustments','Ajustes de descubrimiento'],['ti-shield-lock','Privacidad y seguridad'],['ti-help-circle','Ayuda']];
+var mnh='';
+for(var n=0;n<menu.length;n++){ mnh+='<div style="display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid #1F1530;"><i class="ti '+menu[n][0]+'" style="font-size:19px;color:#C084FC;" aria-hidden="true"></i><span style="flex:1;font-size:13.5px;color:#EFE6D2;">'+menu[n][1]+'</span><i class="ti ti-chevron-right" style="font-size:17px;color:#4B3A5E;" aria-hidden="true"></i></div>'; }
+var perfil='<div style="display:flex;align-items:center;justify-content:space-between;padding:28px 18px 6px;"><span style="font-size:19px;font-weight:500;color:#F5F3FF;">Mi perfil</span><i class="ti ti-settings" style="font-size:21px;color:#6E5C85;" aria-hidden="true"></i></div>'
+  +'<div style="text-align:center;padding:8px 18px 0;"><div style="width:92px;height:92px;margin:0 auto;border-radius:50%;overflow:hidden;position:relative;background:radial-gradient(circle at 50% 25%,#4C1D95,#160B26);border:3px solid #7C3AED;">'+av('you',112)+'</div>'
+  +'<div style="margin-top:-12px;position:relative;display:inline-block;font-size:10px;font-weight:500;color:#fff;background:#7C3AED;padding:3px 10px;border-radius:11px;">Perfil 80%</div>'
+  +'<div style="margin-top:12px;font-size:20px;font-weight:500;color:#F5F3FF;">Tú, 27</div><div style="font-size:12px;color:#A99FB8;margin-top:2px;">Ajolote urbano · CDMX</div>'
+  +'<button style="margin-top:12px;padding:9px 22px;border-radius:22px;background:transparent;border:1px solid #7C3AED;color:#C4B5FD;font-size:13px;font-weight:500;cursor:pointer;">Editar perfil</button></div>'
+  +'<div style="margin:14px 16px 0;padding:11px 13px;border-radius:14px;background:linear-gradient(90deg,#3B2A08,#4A3309);border:1px solid #FBBF2455;display:flex;align-items:center;gap:10px;"><i class="ti ti-crown" style="font-size:19px;color:#FBBF24;" aria-hidden="true"></i><div style="flex:1;"><div style="font-size:12.5px;font-weight:500;color:#F5F3FF;">Mejora a AxoloGold</div><div style="font-size:10.5px;color:#A99FB8;">Regen ilimitado y más</div></div><i class="ti ti-chevron-right" style="font-size:17px;color:#FBBF24;" aria-hidden="true"></i></div>'
+  +'<div style="display:flex;gap:10px;padding:14px 16px 4px;">'+sh+'</div>'
+  +'<div style="margin-top:6px;">'+mnh+'</div>'
+  +nav(3);
+
+document.getElementById('board').innerHTML =
+  '<div>'+cap('AxoloGold')+phone(gold)+'</div>'
+  +'<div>'+cap('Descubre')+phone(descubre)+'</div>'
+  +'<div>'+cap('Te dieron like')+phone(likes)+'</div>'
+  +'<div>'+cap('Mensajes')+phone(mensajes)+'</div>'
+  +'<div>'+cap('Perfil')+phone(perfil)+'</div>';
+
+document.querySelectorAll('.axo').forEach(function(el){ el.innerHTML=axoSVG(pals[el.dataset.pal], +el.dataset.size||80); });
+
+window.selPlan=function(id,price){
+  ['p1','p6','p12'].forEach(function(x){ var e=document.getElementById(x); var on=x===id; e.style.borderColor=on?'#FBBF24':'#2E2040'; e.style.background=on?'#3B2A08':'#15101D'; });
+  document.getElementById('goldCta').textContent='Hazte AxoloGold · $'+price+'/mes';
+};
+</script>
+</body>
+</html>

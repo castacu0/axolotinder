@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AxoloTinder — Editar perfil y pago AxoloGold</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css">
+<style>
+body{margin:0;background:#0D0814;min-height:100vh;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+.axp{--ax-app:#0D0814;--ax-frame:#0B0610;--ax-frameb:#261A33;--ax-surf:#15101D;--ax-card:#1A1126;--ax-bd:#2E2040;--ax-divider:#1F1530;--ax-tp:#F5F3FF;--ax-ts:#A99FB8;--ax-tm:#6E5C85;--ax-acc:#C4B5FD;--ax-pur:#7C3AED;--ax-pink:#EC4899;--ax-chipb:#6D28D933;--ax-chipt:#E9D5FF;--ax-chipd:#7C3AED55;--ax-input:#15101D;--ax-on:#34D399;}
+.axp.light{--ax-app:#F4EFFB;--ax-frame:#E4DAF2;--ax-frameb:#D6C9EC;--ax-surf:#FFFFFF;--ax-card:#FFFFFF;--ax-bd:#E7DDF4;--ax-divider:#EFE8F7;--ax-tp:#1C1326;--ax-ts:#6B5E7E;--ax-tm:#9A8BB0;--ax-acc:#6D28D9;--ax-pur:#7C3AED;--ax-pink:#DB2777;--ax-chipb:#EDE9FE;--ax-chipt:#5B21B6;--ax-chipd:#C4B5FD;--ax-input:#F6F2FB;--ax-on:#059669;}
+.axsw{width:38px;height:22px;border-radius:11px;background:var(--ax-bd);position:relative;cursor:pointer;transition:background .2s;flex:0 0 auto;}
+.axsw.on{background:var(--ax-pur);}
+.axsw::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;}
+.axsw.on::after{left:18px;}
+.axchip{font-size:11px;font-weight:500;padding:6px 13px;border-radius:20px;cursor:pointer;border:1px solid var(--ax-bd);color:var(--ax-ts);background:transparent;}
+.axchip.on{color:var(--ax-chipt);background:var(--ax-chipb);border-color:var(--ax-chipd);}
+.axm{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:13px;border:1px solid var(--ax-bd);cursor:pointer;background:var(--ax-surf);}
+.axm.sel{border-color:var(--ax-pur);background:var(--ax-chipb);}
+.axdot{width:20px;height:20px;border-radius:50%;border:2px solid var(--ax-bd);position:relative;flex:0 0 auto;}
+.axm.sel .axdot{border-color:var(--ax-pur);}
+.axm.sel .axdot::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--ax-pur);}
+.axin{height:38px;border-radius:11px;border:1px solid var(--ax-bd);background:var(--ax-input);color:var(--ax-tp);padding:0 12px;font-size:13px;outline:none;}
+.axbtn{height:38px;border-radius:11px;border:1px solid var(--ax-bd);background:transparent;color:var(--ax-acc);font-size:13px;font-weight:500;padding:0 16px;cursor:pointer;}
+</style>
+</head>
+<body>
+<h2 class="sr-only">AxoloTinder edit profile and AxoloGold checkout screens with a dark and light theme toggle.</h2>
+<div class="axp" id="axp" style="background:var(--ax-app);padding:24px 16px;transition:background .25s;min-height:100vh;box-sizing:border-box;">
+  <div style="display:flex;justify-content:center;margin-bottom:18px;">
+    <button onclick="axToggle()" style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:22px;border:1px solid var(--ax-bd);background:var(--ax-surf);color:var(--ax-tp);cursor:pointer;font-size:13px;font-weight:500;">
+      <i class="ti ti-moon" id="themeIcon" aria-hidden="true"></i><span id="themeLbl">Modo oscuro</span>
+    </button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px;align-items:start;max-width:760px;margin:0 auto;">
+    <div>
+      <div style="text-align:center;margin-bottom:10px;"><span style="font-size:12px;font-weight:500;color:var(--ax-acc);background:var(--ax-chipb);border:1px solid var(--ax-chipd);padding:4px 12px;border-radius:12px;">Editar perfil</span></div>
+      <div style="max-width:344px;margin:0 auto;background:var(--ax-frame);border-radius:40px;padding:9px;border:1px solid var(--ax-frameb);"><div style="position:relative;background:var(--ax-app);border-radius:32px;overflow:hidden;height:680px;" id="editScreen"></div></div>
+    </div>
+    <div>
+      <div style="text-align:center;margin-bottom:10px;"><span style="font-size:12px;font-weight:500;color:var(--ax-acc);background:var(--ax-chipb);border:1px solid var(--ax-chipd);padding:4px 12px;border-radius:12px;">Pago AxoloGold</span></div>
+      <div style="max-width:344px;margin:0 auto;background:var(--ax-frame);border-radius:40px;padding:9px;border:1px solid var(--ax-frameb);"><div style="position:relative;background:var(--ax-app);border-radius:32px;overflow:hidden;height:680px;" id="checkoutScreen"></div></div>
+    </div>
+  </div>
+</div>
+<script>
+var pals={you:{body:'#C4B5FD',belly:'#DDD6FE',gills:'#A855F7',eye:'#2A1248',line:'#6D28D9'}};
+function axoSVG(a,size){return '<svg viewBox="0 0 200 200" style="position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:'+size+'px;height:'+size+'px;" aria-hidden="true"><ellipse cx="100" cy="128" rx="52" ry="40" fill="'+a.belly+'"/><path d="M70 150 Q60 196 84 188 Q92 168 100 168 Q108 168 116 188 Q140 196 130 150 Z" fill="'+a.body+'"/><circle cx="100" cy="92" r="46" fill="'+a.body+'"/><g stroke="'+a.gills+'" stroke-width="7" stroke-linecap="round" fill="none"><path d="M58 78 Q34 60 30 72"/><path d="M58 92 Q30 86 28 98"/><path d="M60 106 Q34 112 32 124"/><path d="M142 78 Q166 60 170 72"/><path d="M142 92 Q170 86 172 98"/><path d="M140 106 Q166 112 168 124"/></g><circle cx="84" cy="92" r="6.5" fill="'+a.eye+'"/><circle cx="116" cy="92" r="6.5" fill="'+a.eye+'"/><circle cx="86" cy="90" r="2" fill="#fff"/><circle cx="118" cy="90" r="2" fill="#fff"/><circle cx="74" cy="104" r="5" fill="'+a.belly+'" opacity="0.85"/><circle cx="126" cy="104" r="5" fill="'+a.belly+'" opacity="0.85"/><path d="M92 106 Q100 113 108 106" stroke="'+a.line+'" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>';}
+function av(p,s){return '<div class="axo" data-pal="'+p+'" data-size="'+s+'" style="position:absolute;inset:0;"></div>';}
+function lab(t){return '<div style="font-size:11px;font-weight:500;letter-spacing:.6px;color:var(--ax-tm);margin:15px 16px 8px;">'+t+'</div>';}
+
+var ints=[['Nado nocturno',1],['Chinampas',1],['Conservación',1],['Cumbia',1],['Muralismo',0],['Ciencia',0],['Antros',0]];
+var chips=ints.map(function(c){return '<span class="axchip'+(c[1]?' on':'')+'" onclick="axChip(this)">'+c[0]+'</span>';}).join('');
+var photos='';
+for(var i=0;i<3;i++){photos+='<div style="position:relative;height:74px;border-radius:12px;overflow:hidden;background:radial-gradient(circle at 50% 25%,#4C1D95,#160B26);border:1px solid var(--ax-bd);">'+av('you',88)+(i===0?'<div style="position:absolute;bottom:5px;left:5px;font-size:9px;font-weight:500;color:#3B0764;background:#C4B5FD;padding:2px 7px;border-radius:7px;">Principal</div>':'')+'</div>';}
+photos+='<div style="grid-column:1/-1;height:42px;border-radius:12px;border:1.5px dashed var(--ax-bd);display:flex;align-items:center;justify-content:center;background:var(--ax-surf);cursor:pointer;"><span style="font-size:12px;font-weight:500;color:var(--ax-pur);"><i class="ti ti-plus" aria-hidden="true"></i> Agregar foto</span></div>';
+function inforow(k,v,last){return '<div style="display:flex;align-items:center;padding:11px 14px;'+(last?'':'border-bottom:1px solid var(--ax-divider);')+'"><span style="font-size:13px;color:var(--ax-ts);flex:1;">'+k+'</span><span style="font-size:13px;color:var(--ax-tp);">'+v+'</span><i class="ti ti-chevron-right" style="font-size:16px;color:var(--ax-tm);margin-left:8px;" aria-hidden="true"></i></div>';}
+var edit='<div style="display:flex;align-items:center;justify-content:space-between;padding:26px 14px 8px;"><i class="ti ti-chevron-left" style="font-size:22px;color:var(--ax-tm);" aria-hidden="true"></i><span style="font-size:16px;font-weight:500;color:var(--ax-tp);">Editar perfil</span><span onclick="axSave(this)" style="font-size:14px;font-weight:500;color:var(--ax-pur);cursor:pointer;">Guardar</span></div>'
++lab('FOTOS')+'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 16px;">'+photos+'</div>'
++lab('ACERCA DE MÍ')+'<div style="margin:0 16px;padding:11px 13px;border-radius:12px;background:var(--ax-input);border:1px solid var(--ax-bd);font-size:12.5px;line-height:1.5;color:var(--ax-ts);">Ajolote urbano que busca quien aguante el ajetreo del canal. Regenero, luego existo.</div>'
++lab('INFORMACIÓN')+'<div style="margin:0 16px;border:1px solid var(--ax-bd);border-radius:12px;overflow:hidden;">'+inforow('Nombre','Tú')+inforow('Edad','27')+inforow('Ubicación','CDMX',true)+'</div>'
++lab('INTERESES · 4/7')+'<div style="display:flex;flex-wrap:wrap;gap:7px;margin:0 16px;">'+chips+'</div>'
++'<div style="display:flex;align-items:center;padding:14px 16px 4px;"><span style="flex:1;font-size:13px;color:var(--ax-tp);">Mostrar mi distancia</span><div class="axsw on" onclick="axSw(this)"></div></div>'
++'<div style="margin:14px 16px;padding:12px 13px;border-radius:13px;background:var(--ax-chipb);border:1px solid var(--ax-chipd);display:flex;align-items:center;gap:10px;"><i class="ti ti-shield-check" style="font-size:20px;color:var(--ax-pur);" aria-hidden="true"></i><div style="flex:1;"><div style="font-size:12.5px;font-weight:500;color:var(--ax-tp);">Verifícate como ajolote real</div><div style="font-size:10.5px;color:var(--ax-ts);">Más matches, menos bots.</div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--ax-pur);" aria-hidden="true"></i></div>';
+
+var methods=[['ti-credit-card','Tarjeta de crédito','Visa •••• 4242',1],['ti-building-store','OXXO','Paga en efectivo',0],['ti-wallet','Mercado Pago','Conecta tu cuenta',0]];
+var mh=methods.map(function(m){return '<div class="axm'+(m[3]?' sel':'')+'" onclick="axMethod(this)"><i class="ti '+m[0]+'" style="font-size:22px;color:var(--ax-acc);" aria-hidden="true"></i><div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--ax-tp);">'+m[1]+'</div><div style="font-size:11px;color:var(--ax-ts);">'+m[2]+'</div></div><span class="axdot"></span></div>';}).join('');
+function sumrow(k,v,c,b){return '<div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="font-size:'+(b?'14':'13')+'px;color:'+(b?'var(--ax-tp)':'var(--ax-ts)')+';font-weight:'+(b?'500':'400')+';">'+k+'</span><span style="font-size:'+(b?'16':'13')+'px;color:'+(c||'var(--ax-tp)')+';font-weight:'+(b?'500':'400')+';">'+v+'</span></div>';}
+var checkout='<div style="display:flex;align-items:center;justify-content:space-between;padding:26px 16px 12px;"><i class="ti ti-chevron-left" style="font-size:22px;color:var(--ax-tm);" aria-hidden="true"></i><span style="font-size:16px;font-weight:500;color:var(--ax-tp);">Confirmar pago</span><i class="ti ti-lock" style="font-size:18px;color:var(--ax-on);" aria-hidden="true"></i></div>'
++'<div style="margin:4px 16px 0;padding:13px 14px;border-radius:15px;background:rgba(251,191,36,0.10);border:1px solid rgba(251,191,36,0.35);display:flex;align-items:center;gap:12px;"><div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(140deg,#FCD34D,#F59E0B);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><i class="ti ti-crown" style="font-size:22px;color:#3B2A08;" aria-hidden="true"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--ax-tp);">AxoloGold · 6 meses</div><div style="font-size:11.5px;color:var(--ax-ts);">$149/mes · el plan más popular</div></div><span style="font-size:11px;font-weight:500;color:#3B2A08;background:#FBBF24;padding:3px 9px;border-radius:10px;">-25%</span></div>'
++lab('MÉTODO DE PAGO')+'<div style="display:flex;flex-direction:column;gap:8px;margin:0 16px;">'+mh+'</div>'
++'<div style="display:flex;gap:8px;margin:14px 16px 0;"><input class="axin" style="flex:1;" placeholder="Código promocional"><button class="axbtn" onclick="axPromo(this)">Aplicar</button></div>'
++lab('RESUMEN')+'<div style="margin:0 16px;">'+sumrow('Subtotal (6 meses)','$1,194')+sumrow('Descuento AxoloGold','-$300','var(--ax-on)')+'<div style="height:1px;background:var(--ax-divider);margin:6px 0;"></div>'+sumrow('Total','$894 MXN',null,true)+'</div>'
++'<div style="padding:14px 16px 0;"><button onclick="axPay(this)" style="width:100%;padding:14px;border:none;border-radius:24px;background:linear-gradient(140deg,#FCD34D,#F59E0B);color:#3B2A08;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;"><i class="ti ti-lock" aria-hidden="true"></i> Pagar $894 MXN</button></div>'
++'<div style="text-align:center;font-size:10px;color:var(--ax-tm);padding:10px 24px 0;">Pago protegido. Renovación cada 6 meses. Cancela cuando quieras.</div>';
+
+document.getElementById('editScreen').innerHTML=edit;
+document.getElementById('checkoutScreen').innerHTML=checkout;
+document.querySelectorAll('.axo').forEach(function(el){el.innerHTML=axoSVG(pals[el.dataset.pal],+el.dataset.size||80);});
+
+function axToggle(){var p=document.getElementById('axp');p.classList.toggle('light');var on=p.classList.contains('light');document.getElementById('themeIcon').className='ti '+(on?'ti-sun':'ti-moon');document.getElementById('themeLbl').textContent=on?'Modo claro':'Modo oscuro';}
+function axChip(el){el.classList.toggle('on');}
+function axSw(el){el.classList.toggle('on');}
+function axMethod(el){document.querySelectorAll('.axm').forEach(function(m){m.classList.remove('sel');});el.classList.add('sel');}
+function axSave(b){var o=b.textContent;b.textContent='Guardado';setTimeout(function(){b.textContent=o;},1400);}
+function axPromo(b){var inp=b.parentNode.querySelector('input');if(inp.value.trim()){inp.style.borderColor='var(--ax-on)';b.textContent='Aplicado';b.style.color='var(--ax-on)';}}
+function axPay(b){b.innerHTML='Procesando...';setTimeout(function(){b.innerHTML='<i class="ti ti-check" aria-hidden="true"></i> Ya eres AxoloGold';},1400);}
+</script>
+</body>
+</html>
