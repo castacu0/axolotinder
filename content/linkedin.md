@@ -14,8 +14,6 @@ It is an early prototype: dark-first, purple, pink and black, with the full scre
 
 I am looking for two things. A designer-founder who gets Mexican internet culture, and conservation partners working in Xochimilco.
 
-If that is you, my DMs are open.
-
 Regenera tu vida amorosa.
 
 #AxoloTinder #CDMX #Ajolotización #Xochimilco #ProductDesign #Startups
@@ -35,8 +33,6 @@ Seis morfos de ajolote, un deck para hacer swipe, un Ajolotímetro de compatibil
 Es un prototipo temprano: oscuro, morado, rosa y negro, con todo el flujo de pantallas ya diseñado.
 
 Busco dos cosas. Alguien de diseño que entienda el internet mexicano, y aliados de conservación que trabajen en Xochimilco.
-
-Si eres tú, te leo en mensajes.
 
 Regenera tu vida amorosa.
 
