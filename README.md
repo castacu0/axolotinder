@@ -10,6 +10,17 @@ Purple, pink, black. Dark-first, inspired by the [Obsidian brand](https://obsidi
 
 ---
 
+## Read the launch
+
+Postalized Plane Special Edition: **AxoloTinder with Fable 5**
+
+- LinkedIn: [AxoloTinder with Fable 5](https://www.linkedin.com/pulse/axolotinder-fable5-cesar-castanon-a-p3v6e/)
+- Substack: [Postalized Plane special edition](https://substack.com/home/post/p-201836363)
+- X: [@castacu0 launch thread](https://x.com/castacu0/status/2065673264341344309?s=20)
+- Live prototype: [castacu0.github.io/axolotinder](https://castacu0.github.io/axolotinder/)
+
+---
+
 ## What it is
 
 AxoloTinder is a concept dating app built around Mexico City's most iconic resident: the axolotl. Swipe through a cast of six real axolotl morphs, match on an *Ajolotímetro* compatibility score, chat with axolotl-flavored icebreakers, and upgrade to **AxoloGold** for the perks every dating app sells (see who liked you, unlimited rewinds, weekly super-likes).
