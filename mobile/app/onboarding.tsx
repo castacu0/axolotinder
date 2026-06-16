@@ -8,6 +8,7 @@ import { Logo } from "../components/Logo";
 import { Axolotl } from "../components/Axolotl";
 import { axolotls } from "../data/axolotls";
 import { GRADIENT, useTheme } from "../theme/theme";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 const slides = [
   {
@@ -46,7 +47,8 @@ export default function Onboarding() {
     const s = slides[idx];
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: c.app, padding: 24 }}>
-        <View style={{ alignItems: "flex-end" }}>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+          <ThemeToggle />
           <Pressable onPress={() => setPhase("login")}>
             <Text style={{ color: c.ts, fontSize: 13 }}>Saltar</Text>
           </Pressable>

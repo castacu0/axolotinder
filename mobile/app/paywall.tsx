@@ -5,6 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { GOLD_GRADIENT, useTheme } from "../theme/theme";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 const feats: { icon: keyof typeof Ionicons.glyphMap; label: string }[] = [
   { icon: "refresh", label: "Regen ilimitado" },
@@ -42,6 +43,7 @@ export default function Paywall() {
             <Ionicons name="close" size={24} color={c.tm} />
           </Pressable>
           <Text style={{ fontSize: 12, color: c.ts }}>Restaurar compra</Text>
+          <ThemeToggle />
         </View>
 
         <View style={{ alignItems: "center", paddingHorizontal: 20, paddingTop: 6 }}>

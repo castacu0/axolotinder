@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { View, Text, Pressable, ScrollView, TextInput } from "react-native";
+import { useRef, useEffect, useState } from "react";
+import { View, Text, Pressable, ScrollView, TextInput, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { GOLD_GRADIENT, useTheme } from "../theme/theme";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 const methods: { id: string; icon: keyof typeof MaterialCommunityIcons.glyphMap; name: string; sub: string }[] = [
   { id: "card", icon: "credit-card-outline", name: "Tarjeta de crédito", sub: "Visa ···· 4242" },
@@ -12,40 +13,126 @@ const methods: { id: string; icon: keyof typeof MaterialCommunityIcons.glyphMap;
   { id: "mp", icon: "wallet-outline", name: "Mercado Pago", sub: "Conecta tu cuenta" },
 ];
 
+const UNLOCKED = [
+  { icon: "refresh" as const, label: "Regen ilimitado activado" },
+  { icon: "eye" as const, label: "Ya puedes ver todos tus likes" },
+  { icon: "star" as const, label: "5 Súper Ajos disponibles" },
+  { icon: "flash" as const, label: "1 Boost gratis listo" },
+];
+
 export default function Checkout() {
   const { c } = useTheme();
   const [method, setMethod] = useState("card");
   const [done, setDone] = useState(false);
+  const successScale = useRef(new Animated.Value(0.7)).current;
+  const successOpacity = useRef(new Animated.Value(0)).current;
+  const crownPulse = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (done) {
+      Animated.parallel([
+        Animated.spring(successScale, { toValue: 1, useNativeDriver: true, bounciness: 12 }),
+        Animated.timing(successOpacity, { toValue: 1, duration: 350, useNativeDriver: true }),
+      ]).start(() => {
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(crownPulse, { toValue: 1.10, duration: 900, useNativeDriver: true }),
+            Animated.timing(crownPulse, { toValue: 1, duration: 900, useNativeDriver: true }),
+          ])
+        ).start();
+      });
+    }
+  }, [done]);
 
   function SumRow({ k, v, color, bold }: { k: string; v: string; color?: string; bold?: boolean }) {
     return (
       <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 6 }}>
-        <Text style={{ fontSize: bold ? 14 : 13, fontWeight: bold ? "500" : "400", color: bold ? c.tp : c.ts }}>
-          {k}
-        </Text>
-        <Text style={{ fontSize: bold ? 16 : 13, fontWeight: bold ? "500" : "400", color: color || c.tp }}>
-          {v}
-        </Text>
+        <Text style={{ fontSize: bold ? 14 : 13, fontWeight: bold ? "500" : "400", color: bold ? c.tp : c.ts }}>{k}</Text>
+        <Text style={{ fontSize: bold ? 16 : 13, fontWeight: bold ? "500" : "400", color: color || c.tp }}>{v}</Text>
       </View>
     );
   }
 
   if (done) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: c.app, alignItems: "center", justifyContent: "center", padding: 30, gap: 18 }}>
-        <LinearGradient colors={GOLD_GRADIENT} style={{ width: 76, height: 76, borderRadius: 38, alignItems: "center", justifyContent: "center" }}>
-          <MaterialCommunityIcons name="crown" size={40} color="#3B2A08" />
-        </LinearGradient>
-        <Text style={{ fontSize: 21, fontWeight: "500", color: c.tp, textAlign: "center" }}>Ya eres AxoloGold</Text>
-        <Text style={{ fontSize: 13, color: c.ts, textAlign: "center" }}>
-          Regen ilimitado activado. Tu primer peso ya va para Xochimilco.
-        </Text>
-        <Pressable
-          onPress={() => router.dismissAll()}
-          style={{ marginTop: 6, paddingHorizontal: 26, paddingVertical: 12, borderRadius: 24, borderWidth: 1, borderColor: "#3A2A4D" }}
+      <SafeAreaView style={{ flex: 1, backgroundColor: c.app }}>
+        <Animated.View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 28,
+            gap: 16,
+            opacity: successOpacity,
+            transform: [{ scale: successScale }],
+          }}
         >
-          <Text style={{ color: "#C4B5FD", fontSize: 13, fontWeight: "500" }}>Volver a nadar</Text>
-        </Pressable>
+          <View style={{ position: "absolute", top: "14%", left: "10%" }}>
+            <Text style={{ fontSize: 22 }}>✨</Text>
+          </View>
+          <View style={{ position: "absolute", top: "11%", right: "15%" }}>
+            <Text style={{ fontSize: 17 }}>⭐</Text>
+          </View>
+          <View style={{ position: "absolute", bottom: "20%", left: "7%" }}>
+            <Text style={{ fontSize: 19 }}>✨</Text>
+          </View>
+          <View style={{ position: "absolute", bottom: "18%", right: "9%" }}>
+            <Text style={{ fontSize: 15 }}>🌟</Text>
+          </View>
+
+          <Animated.View style={{ transform: [{ scale: crownPulse }] }}>
+            <LinearGradient
+              colors={GOLD_GRADIENT}
+              style={{ width: 96, height: 96, borderRadius: 48, alignItems: "center", justifyContent: "center" }}
+            >
+              <MaterialCommunityIcons name="crown" size={52} color="#3B2A08" />
+            </LinearGradient>
+          </Animated.View>
+
+          <Text style={{ fontSize: 26, fontWeight: "500", color: "#FBBF24", textAlign: "center" }}>
+            ¡Ya eres AxoloGold!
+          </Text>
+          <Text style={{ fontSize: 13.5, color: c.ts, textAlign: "center", lineHeight: 22 }}>
+            Tu plan de 6 meses ya está activo.{"\n"}
+            Un peso de tu compra va a Xochimilco 🦎
+          </Text>
+
+          <View
+            style={{
+              backgroundColor: "rgba(251,191,36,0.08)",
+              borderWidth: 1,
+              borderColor: "rgba(251,191,36,0.25)",
+              borderRadius: 16,
+              padding: 14,
+              width: "100%",
+              gap: 10,
+            }}
+          >
+            {UNLOCKED.map((f) => (
+              <View key={f.label} style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                <View
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: 14,
+                    backgroundColor: "rgba(251,191,36,0.20)",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Ionicons name={f.icon} size={14} color="#FBBF24" />
+                </View>
+                <Text style={{ fontSize: 12.5, color: c.tp }}>{f.label}</Text>
+              </View>
+            ))}
+          </View>
+
+          <Pressable onPress={() => router.dismissAll()} style={{ width: "100%", marginTop: 4 }}>
+            <LinearGradient colors={GOLD_GRADIENT} style={{ padding: 14, borderRadius: 26, alignItems: "center" }}>
+              <Text style={{ color: "#3B2A08", fontSize: 15, fontWeight: "500" }}>Empezar a nadar 🌊</Text>
+            </LinearGradient>
+          </Pressable>
+        </Animated.View>
       </SafeAreaView>
     );
   }
@@ -66,7 +153,10 @@ export default function Checkout() {
             <Ionicons name="chevron-back" size={24} color={c.tm} />
           </Pressable>
           <Text style={{ fontSize: 16, fontWeight: "500", color: c.tp }}>Confirmar pago</Text>
-          <Ionicons name="lock-closed" size={18} color={c.on} />
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <ThemeToggle />
+            <Ionicons name="lock-closed" size={18} color={c.on} />
+          </View>
         </View>
 
         <View

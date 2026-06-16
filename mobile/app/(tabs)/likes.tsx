@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import { Axolotl } from "../../components/Axolotl";
 import { axolotls } from "../../data/axolotls";
 import { useTheme } from "../../theme/theme";
+import { ThemeToggle } from "../../components/ThemeToggle";
 
 export default function Likes() {
   const { c } = useTheme();
@@ -15,11 +16,14 @@ export default function Likes() {
     <SafeAreaView style={{ flex: 1, backgroundColor: c.app }} edges={["top"]}>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={{ paddingHorizontal: 18, paddingTop: 12 }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <Text style={{ fontSize: 19, fontWeight: "500", color: c.tp }}>Te dieron like</Text>
-            <View style={{ backgroundColor: "#FBBF24", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2 }}>
-              <Text style={{ fontSize: 11, fontWeight: "500", color: "#3B0764" }}>24</Text>
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <Text style={{ fontSize: 19, fontWeight: "500", color: c.tp }}>Te dieron like</Text>
+              <View style={{ backgroundColor: "#FBBF24", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2 }}>
+                <Text style={{ fontSize: 11, fontWeight: "500", color: "#3B0764" }}>24</Text>
+              </View>
             </View>
+            <ThemeToggle />
           </View>
           <Text style={{ fontSize: 11.5, color: c.tm, marginTop: 3 }}>
             Hazte AxoloGold para verlos a todos.

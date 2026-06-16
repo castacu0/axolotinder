@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import { Axolotl } from "../../components/Axolotl";
 import { you } from "../../data/axolotls";
 import { useTheme } from "../../theme/theme";
+import { ThemeToggle } from "../../components/ThemeToggle";
 
 const stats = [
   { n: "128", l: "Likes" },
@@ -34,7 +35,10 @@ export default function Profile() {
           }}
         >
           <Text style={{ fontSize: 19, fontWeight: "500", color: c.tp }}>Mi perfil</Text>
-          <Ionicons name="settings-outline" size={21} color={c.tm} />
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <ThemeToggle />
+            <Ionicons name="settings-outline" size={21} color={c.tm} />
+          </View>
         </View>
 
         <View style={{ alignItems: "center", paddingTop: 8 }}>

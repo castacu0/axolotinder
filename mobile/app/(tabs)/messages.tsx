@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Axolotl } from "../../components/Axolotl";
 import { axolotls } from "../../data/axolotls";
 import { useTheme } from "../../theme/theme";
+import { ThemeToggle } from "../../components/ThemeToggle";
 
 const convs = [
   { id: "xochitl", last: "¿Nadamos en Cuemanco el finde?", time: "2 min", unread: true },
@@ -36,8 +37,9 @@ export default function Messages() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: c.app }} edges={["top"]}>
       <ScrollView>
-        <View style={{ paddingHorizontal: 18, paddingTop: 12 }}>
+        <View style={{ paddingHorizontal: 18, paddingTop: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
           <Text style={{ fontSize: 19, fontWeight: "500", color: c.tp }}>Mensajes</Text>
+          <ThemeToggle />
         </View>
 
         <View style={{ paddingLeft: 16, paddingTop: 14, paddingBottom: 6 }}>
