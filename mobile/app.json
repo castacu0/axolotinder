@@ -11,7 +11,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.castacu0.axolotinder",
-      "appleTeamId": "NMD9VXN6RX"
+      "appleTeamId": "NMD9VXN6RX",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.castacu0.axolotinder",
@@ -30,6 +33,14 @@
     ],
     "experiments": {
       "typedRoutes": false
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5a2ce3f1-1bee-43fb-96f7-132054e2346f"
+      }
     }
   }
 }
