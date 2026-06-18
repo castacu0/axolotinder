@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.castacu0.axolotinder"
+      "bundleIdentifier": "com.castacu0.axolotinder",
+      "appleTeamId": "NMD9VXN6RX"
     },
     "android": {
       "package": "com.castacu0.axolotinder",
